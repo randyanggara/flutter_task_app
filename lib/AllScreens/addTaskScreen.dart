@@ -20,7 +20,7 @@ class AddTask extends StatefulWidget {
   final Function updateTasks;
   final int num;
 
-  AddTask({this.updateTaskList, this.task, this.updateTasks, this.num});
+  AddTask({required this.updateTaskList, required this.task, required this.updateTasks, required this.num});
 
   @override
   _AddTaskState createState() => _AddTaskState();
@@ -28,7 +28,7 @@ class AddTask extends StatefulWidget {
 
 class _AddTaskState extends State<AddTask> {
   String _task = "";
-  String _category;
+  late String _category;
   DateTime _reminder = DateTime(DateTime
       .now()
       .year, DateTime
@@ -36,7 +36,7 @@ class _AddTaskState extends State<AddTask> {
       .month, DateTime
       .now()
       .day);
-  bool _reminderStatus;
+  late bool _reminderStatus;
   DateTime _date = DateTime(DateTime
       .now()
       .year, DateTime
@@ -61,9 +61,9 @@ class _AddTaskState extends State<AddTask> {
     super.initState();
     if (!prefs.containsKey(_cat)) {
       prefs.setStringList(_cat, ["Personal", "Work", "Business"]);
-      _categories = prefs.getStringList(_cat);
+      _categories = prefs.getStringList(_cat)!;
     } else {
-      _categories = prefs.getStringList(_cat);
+      _categories = prefs.getStringList(_cat)!;
     }
 
     if (widget.task != null) {
@@ -97,14 +97,14 @@ class _AddTaskState extends State<AddTask> {
     _categories.add(cat);
     prefs.setStringList(_cat, _categories);
     setState(() {
-      _categories = prefs.getStringList(_cat);
+      _categories = prefs.getStringList(_cat)!;
     });
 
     print("update category list called with: " + _categories.toString());
   }
 
   _handleDatePicker() async {
-    final DateTime date = await showDatePicker(
+    final DateTime? date = await showDatePicker(
         context: context,
         initialDate: _date,
         firstDate: DateTime(2020),
